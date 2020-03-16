@@ -7,7 +7,7 @@ JSONTEST1    ;
 	s a("callback","getc")="getc",a("callback","ungetc")="ungetc"
 	s result=$$^JSONPARSER(.a) w "result:",result,!,"vn=",a("vn"),!
 	q
-txt ;{"nn":"Bantel","vn":"Winfried","dob":2000101}
+txt ;{"nn":"Mustermann","vn":"Hans","dob":2000101}
 
 cbskalar(l,t,txt)
 	n (l,t,txt,data)

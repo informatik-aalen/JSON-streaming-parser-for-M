@@ -8,8 +8,8 @@ JSONTEST0    ;
 	s result=$$^JSONPARSER(.a) w "result:",result,!
 	q
 txt ;{"a1": 123.1, "a2": [1,2], "a3": {"a":"1"}}
-	;{"Hobbies":["Segelfliegen","Segeln"],"NN":"Mustermann","VN":"Hans","adresse":{"Ort":"Stuttgart","PLZ":70374} }
-	;{"by":1967,"nn":"Bantel","children": ["Linus","Leandra"],"male":true,"female":false,"div":null }
+	;{"Hobbies":["music","cinema"],"NN":"Mustermann","VN":"Hans","adresse":{"Ort":"Stuttgart","PLZ":70374} }
+	;{"by":1967,"nn":"Mustermann","children": ["child-1","child-2"],"male":true,"female":false,"div":null }
 
 	; These callback-functions are also used by JSONTEST3 and JSONTEST4 !!!
 cbskalar(l,t,txt)

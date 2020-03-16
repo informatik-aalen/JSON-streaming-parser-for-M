@@ -3,7 +3,7 @@ JSONTEST5   ;
 	; (could also be passed to getc / ungetc via lvn a or whatever)
 	; Output: All scalar values and all (nested) property names (like JSONTEST0)
 	;
-	s ^JSONTXT(1)="{""nn"":""BaWi"",",^(2)="""vn"":""Winfried"",""dob"":2000101",^(3)="}"
+	s ^JSONTXT(1)="{""nn"":""Mustermann"",",^(2)="""vn"":""Hans"",""dob"":2000101",^(3)="}"
 	s ind="" f  s ind=$O(^JSONTXT(ind)) q:ind=""  w ^(ind),!
 	k a
 	s a("callback","skalar")="cbskalar^JSONTEST0",a("callback","start")="cbstart^JSONTEST0",a("callback","end")="cbend^JSONTEST0"
