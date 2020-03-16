@@ -1,4 +1,4 @@
-# JSON-Streaming-API for M
+# JSON-Streaming-Parser for M
 
 A very light JSON-parser written in native M. Input and output is controlled
 by callback-functions.
