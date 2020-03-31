@@ -59,12 +59,12 @@ scan
 	n (text,token,data)
 	s @("c=$$"_data("callback","getc")_"(.data)")
 	f  q:($C(9,10,13,32)'[c)!(c="")  s @("c=$$"_data("callback","getc")_"(.data)")
-    i "{}[],:"[c s (token,text)=c q
+	i "{}[],:"[c s (token,text)=c q
 	s token=""
-    i c="""" s text="" d  s token="string"  q
-    . f  s @("c=$$"_data("callback","getc")_"(.data)") q:c=""""  s text=text_c
-    i c?1N s text=c d  d @(data("callback","ungetc")_"(.data)") s:token="" token="number" q
-    . f  s @("c=$$"_data("callback","getc")_"(.data)") q:c'?1N  s text=text_c
+	i c="""" s text="" d  s token="string"  q
+	. f  s @("c=$$"_data("callback","getc")_"(.data)") q:c=""""  s text=text_c
+	i c?1N s text=c d  d @(data("callback","ungetc")_"(.data)") s:token="" token="number" q
+	. f  s @("c=$$"_data("callback","getc")_"(.data)") q:c'?1N  s text=text_c
 	. i c="." s text=text_".",@("c=$$"_data("callback","getc")_"(.data)") d
 	. . i c?1N d
 	. . . f  s text=text_c,@("c=$$"_data("callback","getc")_"(.data)") q:c'?1N
