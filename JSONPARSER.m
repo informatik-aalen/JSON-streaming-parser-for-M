@@ -9,14 +9,6 @@ JSONPARSER(data)	;; Version 20200316
 	s error=0 d scan,value i token'="" d error(-3)
 	q error
 
-	;; Helper functions
-forward()
-	q @("$$"_data("callback","getc")_"(.data)")
-
-backward()
-	d @(data("callback","ungetc")_"(.data)")
-	q
-
 error(err)
 	s error=err
 	q
@@ -64,27 +56,32 @@ scan
 	; ToDo:
 	; Escape-Characters in Strings (and Unicode-Characters)
 	;
-	s c=$$forward() f  q:($C(9,10,13,32)'[c)!(c="")  s c=$$forward()
+	n (text,token,data)
+	s @("c=$$"_data("callback","getc")_"(.data)")
+	f  q:($C(9,10,13,32)'[c)!(c="")  s @("c=$$"_data("callback","getc")_"(.data)")
     i "{}[],:"[c s (token,text)=c q
 	s token=""
     i c="""" s text="" d  s token="string"  q
-    . f  s c=$$forward() q:c=""""  s text=text_c
-    i c?1N s text=c d  d backward s:token="" token="number" q
-    . f  s c=$$forward() q:c'?1N  s text=text_c
-	. i c="." s text=text_".",c=$$forward() d
+    . f  s @("c=$$"_data("callback","getc")_"(.data)") q:c=""""  s text=text_c
+    i c?1N s text=c d  d @(data("callback","ungetc")_"(.data)") s:token="" token="number" q
+    . f  s @("c=$$"_data("callback","getc")_"(.data)") q:c'?1N  s text=text_c
+	. i c="." s text=text_".",@("c=$$"_data("callback","getc")_"(.data)") d
 	. . i c?1N d
-	. . . f  s text=text_c,c=$$forward() q:c'?1N
+	. . . f  s text=text_c,@("c=$$"_data("callback","getc")_"(.data)") q:c'?1N
 	. . e  d
 	. . . s token="error"
-	. i (c="E")!(c="e") s text=text_c,c=$$forward() d
-	. . i (c="+")!(c="-") s text=text_c,c=$$forward()
+	. i (c="E")!(c="e") s text=text_c,@("c=$$"_data("callback","getc")_"(.data)") d
+	. . i (c="+")!(c="-") s text=text_c,@("c=$$"_data("callback","getc")_"(.data)")
 	. . i c?1N d
-	. . . f  s text=text_c,c=$$forward() q:c'?1N
+	. . . f  s text=text_c,@("c=$$"_data("callback","getc")_"(.data)") q:c'?1N
 	. . e  d
 	. . . s token="error"
-	i c="t" s text=c_$$forward()_$$forward()_$$forward() i text="true" s token="true" q
-	i c="f" s text=c_$$forward()_$$forward()_$$forward()_$$forward() i text="false" s token="false" q
-	i c="n" s text=c_$$forward()_$$forward()_$$forward() i text="null" s token="null" q
+	i c="t" d  s token=$S(text="true":"true",1:"error") q
+	. s text=c f i=1:1:3 s @("text=text_$$"_data("callback","getc")_"(.data)")
+	i c="f" d  s token=$S(text="false":"false",1:"error") q
+	. s text=c f i=1:1:4 s @("text=text_$$"_data("callback","getc")_"(.data)")
+	i c="n" d  s token=$S(text="null":"null",1:"error") q
+	. s text=c f i=1:1:3 s @("text=text_$$"_data("callback","getc")_"(.data)")
     s token="error" q
 
 	;; Callback-Functions for DOM-Creation
@@ -106,7 +103,7 @@ domcbstart(l,txt)
 domcbend(l,txt)
 	q
 
-	;; getc and ungetc Callback for JSON in root-entry of parameter data
+	;; getc and ungetc Callback for JSON-string in root-entry of parameter data
 getc(a)	;
 	q $E(a,$incr(a("nr")))
 
