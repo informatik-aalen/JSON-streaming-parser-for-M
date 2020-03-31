@@ -1,4 +1,4 @@
-JSONPARSER(data)	;; Version 20200316
+JSONPARSER(data)	;; Version 2020331
 	;;
 	;; JSON-Streaming-Parser in M
 	;; (c) 2020 Winfried Bantel
