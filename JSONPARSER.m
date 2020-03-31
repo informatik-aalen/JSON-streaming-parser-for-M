@@ -82,7 +82,7 @@ scan
 	. s text=c f i=1:1:4 s @("text=text_$$"_data("callback","getc")_"(.data)")
 	i c="n" d  s token=$S(text="null":"null",1:"error") q
 	. s text=c f i=1:1:3 s @("text=text_$$"_data("callback","getc")_"(.data)")
-    s token="error" q
+	s token="error" q
 
 	;; Callback-Functions for DOM-Creation
 domcbskalar(l,t,txt)
