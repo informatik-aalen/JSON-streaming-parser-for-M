@@ -20,7 +20,7 @@ match(t,err)
 
 	;; Recursive-Descent-Parser
 value ;
-	s level($incr(level))=0
+	s level($i(level))=0
 	i token="{" d
 	. d object
 	e  i token="[" d
@@ -34,13 +34,13 @@ value ;
 array
 	d match("[",-1),@(data("callback","start")_"(.level)")
 	i (token'="]") d
-	. d value f  q:token'=","  s dummy=$incr(level(level)) d scan,value
+	. d value f  q:token'=","  s dummy=$i(level(level)) d scan,value
 	d match("]",-2),@(data("callback","end")_"(.level)")
 	q
 
 object
 	d match("{",-1)
-	d pair f  q:token'=","  s dummy=$incr(level(level)) d scan,pair
+	d pair f  q:token'=","  s dummy=$i(level(level)) d scan,pair
 	d match("}",-1)
 	q
 
@@ -105,8 +105,8 @@ domcbend(l,txt)
 
 	;; getc and ungetc Callback for JSON-string in root-entry of parameter data
 getc(a)	;
-	q $E(a,$incr(a("nr")))
+	q $E(a,$i(a("nr")))
 
 ungetc(a) ;
-	s a("nr")=$incr(a("nr"),-1)
+	s a("nr")=$i(a("nr"),-1)
 	q
